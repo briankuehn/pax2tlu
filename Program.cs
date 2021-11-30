@@ -17,14 +17,32 @@ namespace pax2tlu
 
             if (args.Length == 0)
             {
-                Console.WriteLine("Error: File is missing.");
+                Console.WriteLine("Error: File is missing from the commandline.");
                 Console.WriteLine("Usage: pax2tlu somefile.pax");
                 Environment.Exit(-1);
             }
             else
             {
                 inputFile = args[0];
-
+                if (File.Exists(inputFile))
+                {
+                    if (inputFile.Contains(".pax"))
+                    {
+                        //Do something
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error: File is not of type .pax");
+                        Console.WriteLine("Usage: pax2tlu somefile.pax");
+                        Environment.Exit(-1);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Error: Given filename does not exist");
+                    Console.WriteLine("Usage: pax2tlu somefile.pax");
+                    Environment.Exit(-1);
+                }
 
             }
         }
