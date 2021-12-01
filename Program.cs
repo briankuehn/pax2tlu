@@ -28,7 +28,9 @@ namespace pax2tlu
                 {
                     if (inputFile.Contains(".pax"))
                     {
-                        //Do something
+                        XDocument paxFile new XDocument.Load(inputFile);
+                        XDocument tluFile new XDocument();
+
                     }
                     else
                     {
