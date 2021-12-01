@@ -13,8 +13,9 @@ namespace pax2tlu
     {
         static void Main(string[] args)
         {
-            string inputFile = "";
 
+            string inputFile;
+            
             if (args.Length == 0)
             {
                 Console.WriteLine("Error: File is missing from the commandline.");
