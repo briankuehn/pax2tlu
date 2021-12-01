@@ -28,9 +28,18 @@ namespace pax2tlu
                 {
                     if (inputFile.Contains(".pax"))
                     {
-                        XDocument paxFile new XDocument.Load(inputFile);
-                        XDocument tluFile new XDocument();
-
+                        XElement paxFile = XElement.Load(inputFile);
+                        XDocument tluFile = new XDocument(
+                            new XDeclaration("1.0", "ISO-8859-1",""),
+                            new XElement("SalaryData", new XAttribute("ProgramName", "pax2tlu"),
+                                                       new XAttribute("Version", "1.03"),
+                                                       new XAttribute("ExportVersion", "1.2"),
+                                                       new XAttribute("Created", DateTime.Today.ToString("d")))
+                            
+                            );
+                        tluFile.Save(inputFile.Replace(".pax", ".tlu"));
+                        Console.WriteLine(paxFile.LastNode.ToString());
+                        Console.WriteLine(tluFile.FirstNode.ToString());
                     }
                     else
                     {
