@@ -37,20 +37,17 @@ namespace pax2tlu
                     {
                         XDocument paxFile = XDocument.Load(inputFile);
                         XDocument tluFile = new XDocument(
-                            new XDeclaration("1.0", "ISO-8859-1",""),
-                            new XElement("SalaryData", new XAttribute("ProgramName", "pax2tlu"),
-                                                       new XAttribute("Version", "1.03"),
-                                                       new XAttribute("ExportVersion", "1.2"),
-                                                       new XAttribute("Created", DateTime.Today.ToString("d")))
-                            
+                                            new XDeclaration("1.0", "ISO-8859-1", ""),
+                                            new XElement("SalaryData", 
+                                                new XAttribute("ProgramName", "pax2tlu"),
+                                                new XAttribute("Version", "1.03"),
+                                                new XAttribute("ExportVersion", "1.2"),
+                                                new XAttribute("Created", DateTime.Today.ToString("d")),
+                                                new XAttribute("CompanyName", paxFile.Element("paxml").Element("header").Element("foretagnamn").Value),
+                                                new XAttribute("OrgNr", paxFile.Element("paxml").Element("header").Element("foretagorgnr").Value.Replace("16","").Insert(6,"-")))
                             );
-                        //tluFile.Save(inputFile.Replace(".pax", ".tlu"));
 
-                        foreach (XElement element in paxFile.Descendants("header"))
-                        {
-                            Console.WriteLine(element);
-                        }
-                       
+                        tluFile.Save(inputFile.Replace(".pax", ".tlu"));
                     }
                     else
                     {
