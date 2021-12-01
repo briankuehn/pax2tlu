@@ -28,7 +28,7 @@ namespace pax2tlu
                 {
                     if (inputFile.Contains(".pax"))
                     {
-                        XElement paxFile = XElement.Load(inputFile);
+                        XDocument paxFile = XDocument.Load(inputFile);
                         XDocument tluFile = new XDocument(
                             new XDeclaration("1.0", "ISO-8859-1",""),
                             new XElement("SalaryData", new XAttribute("ProgramName", "pax2tlu"),
@@ -37,10 +37,13 @@ namespace pax2tlu
                                                        new XAttribute("Created", DateTime.Today.ToString("d")))
                             
                             );
-                        tluFile.Save(inputFile.Replace(".pax", ".tlu"));
-                        XElement paxInnerElement = paxFile.Element("foretagnamn");
-                        Console.WriteLine(paxInnerElement.Value);
-                        Console.WriteLine(tluFile.FirstNode.ToString());
+                        //tluFile.Save(inputFile.Replace(".pax", ".tlu"));
+
+                        foreach (XElement element in paxFile.Descendants("{https://www.w3chools.com}foretagnamn"))
+                        {
+                            Console.WriteLine(element.Value);
+                        }
+                       
                     }
                     else
                     {
