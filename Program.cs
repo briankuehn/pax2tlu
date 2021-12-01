@@ -38,7 +38,8 @@ namespace pax2tlu
                             
                             );
                         tluFile.Save(inputFile.Replace(".pax", ".tlu"));
-                        Console.WriteLine(paxFile.LastNode.ToString());
+                        XElement paxInnerElement = paxFile.Element("foretagnamn");
+                        Console.WriteLine(paxInnerElement.Value);
                         Console.WriteLine(tluFile.FirstNode.ToString());
                     }
                     else
