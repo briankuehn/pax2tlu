@@ -23,6 +23,7 @@ namespace pax2tlu
         {
 
             string inputFile;
+            XDocument paxFile, tluFile;
             
             if (args.Length == 0)
             {
@@ -35,8 +36,8 @@ namespace pax2tlu
                 {
                     if (inputFile.Contains(".pax"))
                     {
-                        XDocument paxFile = XDocument.Load(inputFile);
-                        XDocument tluFile = new XDocument(
+                        paxFile = XDocument.Load(inputFile);
+                        tluFile = new XDocument(
                                             new XDeclaration("1.0", "ISO-8859-1", ""),
                                             new XElement("SalaryData", 
                                                 new XAttribute("ProgramName", "pax2tlu"),
@@ -44,8 +45,8 @@ namespace pax2tlu
                                                 new XAttribute("ExportVersion", "1.2"),
                                                 new XAttribute("Created", DateTime.Today.ToString("d")),
                                                 new XAttribute("CompanyName", paxFile.Element("paxml").Element("header").Element("foretagnamn").Value),
-                                                new XAttribute("OrgNr", paxFile.Element("paxml").Element("header").Element("foretagorgnr").Value.Replace("16","").Insert(6,"-")))
-                            );
+                                                new XAttribute("OrgNo", paxFile.Element("paxml").Element("header").Element("foretagorgnr").Value.Replace("16","").Insert(6,"-")))
+                                                );
 
                         tluFile.Save(inputFile.Replace(".pax", ".tlu"));
                     }
