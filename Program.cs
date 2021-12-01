@@ -39,9 +39,9 @@ namespace pax2tlu
                             );
                         //tluFile.Save(inputFile.Replace(".pax", ".tlu"));
 
-                        foreach (XElement element in paxFile.Descendants("{https://www.w3chools.com}foretagnamn"))
+                        foreach (XElement element in paxFile.Descendants("header"))
                         {
-                            Console.WriteLine(element.Value);
+                            Console.WriteLine(element);
                         }
                        
                     }
