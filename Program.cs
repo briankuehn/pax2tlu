@@ -61,7 +61,7 @@ namespace pax2tlu
                                 Console.WriteLine(element.Element("FirstName").Value);
                                 Console.WriteLine(element.Element("PersonalNo").Value);
                                 Console.WriteLine();
-                                tluFile.Add(new XElement("employee",
+                                tluFile.Element("SalaryData").Add(new XElement("employee",
                                                     new XElement("EmploymentNo", element.Element("EmploymentNo").Value),
                                                     new XElement("FirstName", element.Element("FirstName").Value),
                                                     new XElement("Name", element.Element("Name").Value),
