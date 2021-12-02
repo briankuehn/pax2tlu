@@ -40,9 +40,9 @@ namespace pax2tlu
                         if (File.Exists(employeeFile) && employeeFile.Contains(".xml"))
                         {
 
-                        
-                        paxFile = XDocument.Load(inputFile);
-                        tluFile = new XDocument(
+                            employeeList = XDocument.Load(employeeFile);
+                            paxFile = XDocument.Load(inputFile);
+                            tluFile = new XDocument(
                                             new XDeclaration("1.0", "ISO-8859-1", ""),
                                             new XElement("SalaryData", 
                                                 new XAttribute("ProgramName", "pax2tlu"),
@@ -53,7 +53,7 @@ namespace pax2tlu
                                                 new XAttribute("OrgNo", paxFile.Element("paxml").Element("header").Element("foretagorgnr").Value.Replace("16","").Insert(6,"-")))
                                                 );
 
-                        tluFile.Save(inputFile.Replace(".pax", ".tlu"));
+                            tluFile.Save(inputFile.Replace(".pax", ".tlu"));
                         }
                         else
                         {
