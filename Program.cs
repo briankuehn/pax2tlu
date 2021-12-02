@@ -53,7 +53,7 @@ namespace pax2tlu
                                                 new XAttribute("OrgNo", paxFile.Element("paxml").Element("header").Element("foretagorgnr").Value.Replace("16","").Insert(6,"-")))
                                                 );
 
-                            tluFile.Save(inputFile.Replace(".pax", ".tlu"));
+                            
 
                             foreach (XElement element in employeeList.Descendants("Employee"))
                             {
@@ -61,7 +61,15 @@ namespace pax2tlu
                                 Console.WriteLine(element.Element("FirstName").Value);
                                 Console.WriteLine(element.Element("PersonalNo").Value);
                                 Console.WriteLine();
+                                tluFile.Add(new XElement("employee",
+                                                    new XElement("EmploymentNo", element.Element("EmploymentNo").Value),
+                                                    new XElement("FirstName", element.Element("FirstName").Value),
+                                                    new XElement("Name", element.Element("Name").Value),
+                                                    new XElement("PersonalNo", element.Element("PersonalNo").Value))
+                                                    );
+
                             }
+                            tluFile.Save(inputFile.Replace(".pax", ".tlu"));
                         }
                         else
                         {
