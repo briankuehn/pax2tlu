@@ -54,6 +54,14 @@ namespace pax2tlu
                                                 );
 
                             tluFile.Save(inputFile.Replace(".pax", ".tlu"));
+
+                            foreach (XElement element in employeeList.Descendants("Employee"))
+                            {
+                                Console.WriteLine(element.Element("EmploymentNo").Value);
+                                Console.WriteLine(element.Element("FirstName").Value);
+                                Console.WriteLine(element.Element("PersonalNo").Value);
+                                Console.WriteLine();
+                            }
                         }
                         else
                         {
