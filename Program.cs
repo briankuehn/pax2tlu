@@ -74,6 +74,12 @@ namespace pax2tlu
                                                     new XAttribute("ToDate", "2021-12-31"))
                                                     );
                                 //Need to look into how to select records with Linq and searching through an attribute
+                                /* IEnumerable<XElement> list1 =
+                                 *   from el in po.Descendants("Address")
+                                 *   where (string)el.Attribute("Type") == "Shipping"
+                                 *   select el;
+                                 * 
+                                 * */
                                 foreach (XElement el in normalWorkingHoursList.Descendants("schematransaktioner"))
                                 {
 
