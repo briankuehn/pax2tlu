@@ -50,9 +50,9 @@ namespace pax2tlu
                                                 new XAttribute("ExportVersion", "1.2"),
                                                 new XAttribute("Created", DateTime.Today.ToString("d")),
                                                 new XAttribute("CompanyName", paxFile.Element("paxml").Element("header").Element("foretagnamn").Value),
-                                                new XAttribute("OrgNo", paxFile.Element("paxml").Element("header").Element("foretagorgnr").Value.Replace("16","").Insert(6,"-"))),
-                                            new XElement("SalaryDataEmployee", new XAttribute("FromDate","2021-01-01"), new XAttribute("ToDate","2021-12-31"))
-                                                );
+                                                new XAttribute("OrgNo", paxFile.Element("paxml").Element("header").Element("foretagorgnr").Value.Replace("16","").Insert(6,"-")),
+                                                new XElement("SalaryDataEmployee", new XAttribute("FromDate","2021-01-01"), new XAttribute("ToDate","2021-12-31")))
+                                            );
 
                             
 
@@ -62,7 +62,7 @@ namespace pax2tlu
                                 Console.WriteLine(element.Element("FirstName").Value);
                                 Console.WriteLine(element.Element("PersonalNo").Value);
                                 Console.WriteLine();
-                                tluFile.Element("SalaryData").Add(new XElement("employee",
+                                tluFile.Element("SalaryData").Element("SalaryDataEmployee").Add(new XElement("employee",
                                                     new XElement("EmploymentNo", element.Element("EmploymentNo").Value),
                                                     new XElement("FirstName", element.Element("FirstName").Value),
                                                     new XElement("Name", element.Element("Name").Value),
