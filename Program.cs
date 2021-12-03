@@ -50,7 +50,8 @@ namespace pax2tlu
                                                 new XAttribute("ExportVersion", "1.2"),
                                                 new XAttribute("Created", DateTime.Today.ToString("d")),
                                                 new XAttribute("CompanyName", paxFile.Element("paxml").Element("header").Element("foretagnamn").Value),
-                                                new XAttribute("OrgNo", paxFile.Element("paxml").Element("header").Element("foretagorgnr").Value.Replace("16","").Insert(6,"-")))
+                                                new XAttribute("OrgNo", paxFile.Element("paxml").Element("header").Element("foretagorgnr").Value.Replace("16","").Insert(6,"-"))),
+                                            new XElement("SalaryDataEmployee", new XAttribute("FromDate","2021-01-01"), new XAttribute("ToDate","2021-12-31"))
                                                 );
 
                             
