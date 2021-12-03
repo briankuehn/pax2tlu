@@ -51,23 +51,33 @@ namespace pax2tlu
                                                 new XAttribute("Created", DateTime.Today.ToString("d")),
                                                 new XAttribute("CompanyName", paxFile.Element("paxml").Element("header").Element("foretagnamn").Value),
                                                 new XAttribute("OrgNo", paxFile.Element("paxml").Element("header").Element("foretagorgnr").Value.Replace("16","").Insert(6,"-")),
-                                                new XElement("SalaryDataEmployee", new XAttribute("FromDate","2021-01-01"), new XAttribute("ToDate","2021-12-31")))
+                                                new XElement("SalaryDataEmployee", new XAttribute("FromDate","2021-01-01"), new XAttribute("ToDate","2021-12-31")),
+                                                    new XElement("NormalWorkingHours"),
+                                                    new XElement("Times"),
+                                                    new XElement("RegOutlays"))
                                             );
 
-                            
+                            XDocument normalWorkingHoursList = employeeList;
+                            XDocument timesList = employeeList;
+                            XDocument regOutlaysList = employeeList;
 
                             foreach (XElement element in employeeList.Descendants("Employee"))
                             {
                                 Console.WriteLine(element.Element("EmploymentNo").Value);
-                                Console.WriteLine(element.Element("FirstName").Value);
-                                Console.WriteLine(element.Element("PersonalNo").Value);
-                                Console.WriteLine();
-                                tluFile.Element("SalaryData").Element("SalaryDataEmployee").Add(new XElement("employee",
-                                                    new XElement("EmploymentNo", element.Element("EmploymentNo").Value),
-                                                    new XElement("FirstName", element.Element("FirstName").Value),
-                                                    new XElement("Name", element.Element("Name").Value),
-                                                    new XElement("PersonalNo", element.Element("PersonalNo").Value))
+
+                                tluFile.Element("SalaryData").Element("SalaryDataEmployee").Add(new XElement("Employee",
+                                                    new XAttribute("EmploymentNo", element.Element("EmploymentNo").Value),
+                                                    new XAttribute("FirstName", element.Element("FirstName").Value),
+                                                    new XAttribute("Name", element.Element("Name").Value),
+                                                    new XAttribute("PersonalNo", element.Element("PersonalNo").Value),
+                                                    new XAttribute("FromDate", "2021-01-01"),
+                                                    new XAttribute("Todate", "2021-12-01"))
                                                     );
+                                //Need to look into how to select records with Linq and searching through an attribute
+                                foreach (XElement el in normalWorkingHoursList.Descendants("schematransaktioner"))
+                                {
+
+                                }
 
                             }
                             tluFile.Save(inputFile.Replace(".pax", ".tlu"));
