@@ -71,7 +71,7 @@ namespace pax2tlu
                                                     new XAttribute("Name", element.Element("Name").Value),
                                                     new XAttribute("PersonalNo", element.Element("PersonalNo").Value),
                                                     new XAttribute("FromDate", "2021-01-01"),
-                                                    new XAttribute("Todate", "2021-12-01"))
+                                                    new XAttribute("ToDate", "2021-12-01"))
                                                     );
                                 //Need to look into how to select records with Linq and searching through an attribute
                                 foreach (XElement el in normalWorkingHoursList.Descendants("schematransaktioner"))
