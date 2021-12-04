@@ -51,10 +51,11 @@ namespace pax2tlu
                                                 new XAttribute("Created", DateTime.Today.ToString("d")),
                                                 new XAttribute("CompanyName", paxFile.Element("paxml").Element("header").Element("foretagnamn").Value),
                                                 new XAttribute("OrgNo", paxFile.Element("paxml").Element("header").Element("foretagorgnr").Value.Replace("16","").Insert(6,"-")),
-                                                new XElement("SalaryDataEmployee", new XAttribute("FromDate","2021-01-01"), new XAttribute("ToDate","2021-12-31")),
-                                                    new XElement("NormalWorkingHours"),
+                                                new XElement("SalaryDataEmployee", new XAttribute("FromDate","2021-01-01"), new XAttribute("ToDate","2021-12-31"),
+                                                    new XElement("Employee"),
+                                                    new XElement("NormalWorkingTimes"),
                                                     new XElement("Times"),
-                                                    new XElement("RegOutlays"))
+                                                    new XElement("RegOutlays")))
                                             );
 
                             XDocument normalWorkingHoursList = employeeList;
@@ -65,13 +66,13 @@ namespace pax2tlu
                             {
                                 Console.WriteLine(element.Element("EmploymentNo").Value);
 
-                                tluFile.Element("SalaryData").Element("SalaryDataEmployee").Add(new XElement("Employee",
+                                tluFile.Element("SalaryData").Element("SalaryDataEmployee").Element("Employee").Add(
                                                     new XAttribute("EmploymentNo", element.Element("EmploymentNo").Value),
                                                     new XAttribute("FirstName", element.Element("FirstName").Value),
                                                     new XAttribute("Name", element.Element("Name").Value),
                                                     new XAttribute("PersonalNo", element.Element("PersonalNo").Value),
                                                     new XAttribute("FromDate", "2021-01-01"),
-                                                    new XAttribute("ToDate", "2021-12-31"))
+                                                    new XAttribute("ToDate", "2021-12-31")
                                                     );
                                 //Need to look into how to select records with Linq and searching through an attribute
                                 /* IEnumerable<XElement> list1 =
@@ -80,9 +81,16 @@ namespace pax2tlu
                                  *   select el;
                                  * 
                                  * */
-                                foreach (XElement el in normalWorkingHoursList.Descendants("schematransaktioner"))
-                                {
+                                IEnumerable<XElement> list1 =
+                                    from el in normalWorkingHoursList.Descendants("schema")
+                                    where (string)el.Attribute("anstid") == element.Element("EmploymentNo").Value
+                                    select el;
 
+                                foreach (XElement el in list1)
+                                {
+                                    tluFile.Element("SalaryData").Element("SalaryDataEmployee").Element("NormalWorkingTimes").Add(new XElement("NormalWorkingTime",
+                                                                                                                                      new XAttribute("DateOfReport", el.Element("dag").Attribute("datum").Value),
+                                                                                                                                      new XAttribute("NormalWorkingTimeHours",el.Element("dag").Attribute("timmar").Value)));
                                 }
 
                             }
