@@ -52,10 +52,10 @@ namespace pax2tlu
                                                 new XAttribute("CompanyName", paxFile.Element("paxml").Element("header").Element("foretagnamn").Value),
                                                 new XAttribute("OrgNo", paxFile.Element("paxml").Element("header").Element("foretagorgnr").Value.Replace("16","").Insert(6,"-")),
                                                 new XElement("SalaryDataEmployee", new XAttribute("FromDate","2021-01-01"), new XAttribute("ToDate","2021-12-31"),
-                                                    new XElement("Employee"),
+                                                    new XElement("Employee",
                                                     new XElement("NormalWorkingTimes"),
                                                     new XElement("Times"),
-                                                    new XElement("RegOutlays")))
+                                                    new XElement("RegOutlays"))))
                                             );
 
                             XDocument normalWorkingHoursList = employeeList;
