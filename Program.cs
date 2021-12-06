@@ -81,7 +81,7 @@ namespace pax2tlu
                                  * 
                                  * */
                                 IEnumerable<XElement> list1 =
-                                    from el in normalWorkingHoursList.Descendants("schema")
+                                    from el in paxFile.Descendants("schematransaktioner")
                                     where (string)el.Attribute("anstid") == element.Element("EmploymentNo").Value
                                     select el;
 
