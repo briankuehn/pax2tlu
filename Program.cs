@@ -130,26 +130,29 @@ namespace pax2tlu
                                 }
 
                                 //RegOutlays section
-
+                                
                                 IEnumerable<XElement> listRO =
-                                    from el in paxFile.Descendants("schema")
+                                    from el in paxFile.Descendants("lonetrans")
                                     where (string)el.Attribute("anstid") == element.Element("EmploymentNo").Value
                                     select el;
 
-                                foreach (XElement el in listRO)
+                                foreach (XElement elem in listRO)
                                 {
 
-                                    IEnumerable<XElement> nodeList =
-                                    from elNode in el.Descendants("dag")
-                                    select elNode;
+                                   
+                                        dummyFile.Element("RegOutlays").Add(new XElement("RegOutlay",
+                                                                                new XAttribute("DateOfReport", elem.Element("datum").Value),
+                                                                                new XAttribute("OutlayCode", elem.Element("lonart").Value),
+                                                                                new XAttribute("OutlayCodeName", ""),
+                                                                                new XAttribute("OutlayType",elem.Element("benamning").Value),
+                                                                                new XAttribute("NoOfPrivate", elem.Element("antal").Value),
+                                                                                new XAttribute("Unit", ""),
+                                                                                new XAttribute("SumOfPrivate",elem.Element("apris").Value),
+                                                                                new XAttribute("SumOfPrivateTax", ""),
+                                                                                new XAttribute("InternNote",""))
+                                                                                );
 
-                                    foreach (XElement elem in nodeList)
-                                    {
-                                        dummyFile.Element("RegOutlays").Add(new XElement("NormalWorkingTime",
-                                                                                                            new XAttribute("DateOfReport", elem.Attribute("datum").Value),
-                                                                                                            new XAttribute("NormalWorkingTimeHours", elem.Attribute("timmar").Value)));
-
-                                    }
+                                   
                                 }
 
                                 //add in dummyFile to tluFile
