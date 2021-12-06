@@ -23,7 +23,7 @@ namespace pax2tlu
         {
 
             string inputFile, employeeFile;
-            XDocument paxFile, tluFile, employeeList;
+            XDocument paxFile, tluFile, employeeList, dummyFile;
             
             if (args.Length < 2)
             {
@@ -62,7 +62,7 @@ namespace pax2tlu
                             {
                                 Console.WriteLine(element.Element("EmploymentNo").Value);
 
-                                tluFile.Element("SalaryData").Element("SalaryDataEmployee").Add(new XElement("Employee",
+                                dummyFile.Add(new XElement("Employee",
                                                     new XAttribute("EmploymentNo", element.Element("EmploymentNo").Value),
                                                     new XAttribute("FirstName", element.Element("FirstName").Value),
                                                     new XAttribute("Name", element.Element("Name").Value),
@@ -81,19 +81,35 @@ namespace pax2tlu
                                  * 
                                  * */
                                 IEnumerable<XElement> list1 =
-                                    from el in paxFile.Descendants("schematransaktioner")
+                                    from el in paxFile.Descendants("schema")
                                     where (string)el.Attribute("anstid") == element.Element("EmploymentNo").Value
                                     select el;
 
-                                foreach (XElement el in list1)
+                                /*foreach (XElement el in list1)
                                 {
                                     tluFile.Element("SalaryData").Element("SalaryDataEmployee").Element("Employee").Element("NormalWorkingTimes").Add(new XElement("NormalWorkingTime",
                                                                                                                                       new XAttribute("DateOfReport", el.Element("dag").Attribute("datum").Value),
                                                                                                                                       new XAttribute("NormalWorkingTimeHours",el.Element("dag").Attribute("timmar").Value)));
-                                }
+                                }*/
+                                foreach (XElement el in list1)
+                                {
+                                    
+                                    IEnumerable<XElement> nodeList =
+                                    from elNode in el.Descendants("dag")
+                                    select elNode;
+                                    foreach (XElement elem in nodeList)
+                                    {
+                                        tluFile.Element("SalaryData").Element("SalaryDataEmployee").Element("Employee").Element("NormalWorkingTimes").Add(new XElement("NormalWorkingTime",
+                                                                                                                                         new XAttribute("DateOfReport", elem.Attribute("datum").Value),
+                                                                                                                                         new XAttribute("NormalWorkingTimeHours", elem.Attribute("timmar").Value)));
 
+                                    }
+                                }
+                                //add in dummyFile to tluFile
+                                tluFile.Save(inputFile.Replace(".pax", ".tlu"));
+                                //empty dummyFile
                             }
-                            tluFile.Save(inputFile.Replace(".pax", ".tlu"));
+                            
                         }
                         else
                         {
