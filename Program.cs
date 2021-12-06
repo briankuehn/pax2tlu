@@ -23,7 +23,8 @@ namespace pax2tlu
         {
 
             string inputFile, employeeFile;
-            XDocument paxFile, tluFile, employeeList, dummyFile;
+            XDocument paxFile, tluFile, employeeList;
+            XElement dummyFile;
             
             if (args.Length < 2)
             {
@@ -62,7 +63,7 @@ namespace pax2tlu
                             {
                                 Console.WriteLine(element.Element("EmploymentNo").Value);
 
-                                dummyFile = new XDocument((new XElement("Employee",
+                                dummyFile = new XElement("Employee",
                                                     new XAttribute("EmploymentNo", element.Element("EmploymentNo").Value),
                                                     new XAttribute("FirstName", element.Element("FirstName").Value),
                                                     new XAttribute("Name", element.Element("Name").Value),
@@ -71,7 +72,7 @@ namespace pax2tlu
                                                     new XAttribute("ToDate", "2021-12-31"),
                                                     new XElement("NormalWorkingTimes"),
                                                     new XElement("Times"),
-                                                    new XElement("RegOutlays")))
+                                                    new XElement("RegOutlays")
                                                     );
                                 //Need to look into how to select records with Linq and searching through an attribute
                                 /* IEnumerable<XElement> list1 =
@@ -94,14 +95,14 @@ namespace pax2tlu
 
                                     foreach (XElement elem in nodeList)
                                     {
-                                        dummyFile.Element("Employee").Element("NormalWorkingTimes").Add(new XElement("NormalWorkingTime",
+                                        dummyFile.Element("NormalWorkingTimes").Add(new XElement("NormalWorkingTime",
                                                                                                             new XAttribute("DateOfReport", elem.Attribute("datum").Value),
                                                                                                             new XAttribute("NormalWorkingTimeHours", elem.Attribute("timmar").Value)));
 
                                     }
                                 }
                                 //add in dummyFile to tluFile
-                                tluFile.Add(dummyFile);
+                                tluFile.Element("SalaryData").Element("SalaryDataEmployee").Add(dummyFile);
                                 tluFile.Save(inputFile.Replace(".pax", ".tlu"));
                                 //empty dummyFile
                                 dummyFile = null;
