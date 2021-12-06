@@ -81,12 +81,14 @@ namespace pax2tlu
                                  *   select el;
                                  * 
                                  * */
-                                IEnumerable<XElement> list1 =
+                                IEnumerable<XElement> listNWH =
                                     from el in paxFile.Descendants("schema")
                                     where (string)el.Attribute("anstid") == element.Element("EmploymentNo").Value
                                     select el;
 
-                                foreach (XElement el in list1)
+                                //NormalWorkingTimes section
+
+                                foreach (XElement el in listNWH)
                                 {
                                     
                                     IEnumerable<XElement> nodeList =
@@ -101,6 +103,55 @@ namespace pax2tlu
 
                                     }
                                 }
+
+                                //Times section
+
+                                IEnumerable<XElement> listTimes =
+                                    from el in paxFile.Descendants("tidtrans")
+                                    where (string)el.Attribute("anstid") == element.Element("EmploymentNo").Value
+                                    select el;
+
+                                foreach (XElement el in listTimes)
+                                {
+                                    if (el.Element("omfattning") != null)
+                                    {
+                                        dummyFile.Element("Times").Add(new XElement("Time",
+                                                                       new XAttribute("DateOfReport", el.Element("datum").Value),
+                                                                       new XAttribute("TimeCode", el.Element("tidkod").Value),
+                                                                       new XAttribute("SumOfHours", "8")));
+                                    }
+                                    else
+                                    {
+                                        dummyFile.Element("Times").Add(new XElement("Time",
+                                                                       new XAttribute("DateOfReport", el.Element("datum").Value),
+                                                                       new XAttribute("TimeCode", el.Element("tidkod").Value),
+                                                                       new XAttribute("SumOfHours", el.Element("timmar").Value)));
+                                    }
+                                }
+
+                                //RegOutlays section
+
+                                IEnumerable<XElement> listRO =
+                                    from el in paxFile.Descendants("schema")
+                                    where (string)el.Attribute("anstid") == element.Element("EmploymentNo").Value
+                                    select el;
+
+                                foreach (XElement el in listRO)
+                                {
+
+                                    IEnumerable<XElement> nodeList =
+                                    from elNode in el.Descendants("dag")
+                                    select elNode;
+
+                                    foreach (XElement elem in nodeList)
+                                    {
+                                        dummyFile.Element("RegOutlays").Add(new XElement("NormalWorkingTime",
+                                                                                                            new XAttribute("DateOfReport", elem.Attribute("datum").Value),
+                                                                                                            new XAttribute("NormalWorkingTimeHours", elem.Attribute("timmar").Value)));
+
+                                    }
+                                }
+
                                 //add in dummyFile to tluFile
                                 tluFile.Element("SalaryData").Element("SalaryDataEmployee").Add(dummyFile);
                                 tluFile.Save(inputFile.Replace(".pax", ".tlu"));
