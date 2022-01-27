@@ -141,18 +141,38 @@ namespace pax2tlu
                                 foreach (XElement elem in listRO)
                                 {
 
-                                   
+                                    try 
+                                    {
+                                        if ((elem.Element("antal").Value != null))
+                                        {
+                                            dummyFile.Element("RegOutlays").Add(new XElement("RegOutlay",
+                                                                               new XAttribute("DateOfReport", elem.Element("datum").Value),
+                                                                               new XAttribute("OutlayCode", elem.Element("lonart").Value),
+                                                                               new XAttribute("OutlayCodeName", ""),
+                                                                               new XAttribute("OutlayType", elem.Element("benamning").Value),
+                                                                               new XAttribute("NoOfPrivate", elem.Element("antal").Value),
+                                                                               new XAttribute("Unit", ""),
+                                                                               new XAttribute("SumOfPrivate", elem.Element("apris").Value),
+                                                                               new XAttribute("SumOfPrivateTax", ""),
+                                                                               new XAttribute("InternNote", ""))
+                                                                               );
+                                        }
+                                        
+                                    }
+                                    catch (NullReferenceException e)
+                                    {
                                         dummyFile.Element("RegOutlays").Add(new XElement("RegOutlay",
-                                                                                new XAttribute("DateOfReport", elem.Element("datum").Value),
-                                                                                new XAttribute("OutlayCode", elem.Element("lonart").Value),
-                                                                                new XAttribute("OutlayCodeName", ""),
-                                                                                new XAttribute("OutlayType",elem.Element("benamning").Value),
-                                                                                new XAttribute("NoOfPrivate", elem.Element("antal").Value),
-                                                                                new XAttribute("Unit", ""),
-                                                                                new XAttribute("SumOfPrivate",elem.Element("apris").Value),
-                                                                                new XAttribute("SumOfPrivateTax", ""),
-                                                                                new XAttribute("InternNote",""))
-                                                                                );
+                                                                               new XAttribute("DateOfReport", elem.Element("datum").Value),
+                                                                               new XAttribute("OutlayCode", elem.Element("lonart").Value),
+                                                                               new XAttribute("OutlayCodeName", ""),
+                                                                               new XAttribute("OutlayType", elem.Element("benamning").Value),
+                                                                               new XAttribute("NoOfPrivate", 1),
+                                                                               new XAttribute("Unit", ""),
+                                                                               new XAttribute("SumOfPrivate", elem.Element("belopp").Value),
+                                                                               new XAttribute("SumOfPrivateTax", ""),
+                                                                               new XAttribute("InternNote", ""))
+                                                                               );
+                                    }  
 
                                    
                                 }
