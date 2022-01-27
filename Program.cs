@@ -21,6 +21,8 @@ namespace pax2tlu
 
         static void Main(string[] args)
         {
+            // inputFile is an xml file formed after PAxml
+            // employeeFile is an xml file created from Visma Lön and formatted into xml from Access
 
             string inputFile, employeeFile;
             XDocument paxFile, tluFile, employeeList;
