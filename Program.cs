@@ -21,8 +21,18 @@ namespace pax2tlu
 
         static void Main(string[] args)
         {
-            // inputFile is an xml file formed after PAxml
-            // employeeFile is an xml file created from Visma Lön and formatted into xml from Access
+            // inputFile is an xml file formed after PAXml https://paxml.se/
+            /* employeeFile is an xml file created from Visma Lön and formatted into xml from Access
+             * <?xml version="1.0" encoding="UTF-8"?>
+             * <dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="Employee.xsd" generated="2021-12-02T09:23:05">
+             *  <Employee>
+             *  <EmploymentNo>1</EmploymentNo>
+             *  <FirstName>Torbjörn</FirstName>
+             *  <Name>Efternamnsson</Name>
+             *  <PersonalNo>XXXXXX-XXXX</PersonalNo>
+             *  </Employee>
+             * </dataroot>
+             */
 
             string inputFile, employeeFile;
             XDocument paxFile, tluFile, employeeList;
